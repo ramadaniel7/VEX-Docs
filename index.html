@@ -1,331 +1,587 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VEX v1.0 | Official Documentation</title>
-    <style>
-        /* Apple/iOS System Fonts & Base Reset */
-        :root {
-            --bg-color: #050507;
-            --text-main: #f5f5f7;
-            --text-muted: #a1a1a6;
-            --glass-bg: rgba(255, 255, 255, 0.04);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --accent-color: #2997ff;
-            --alert-color: #ff3b30;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEX Security Documentation & Legal</title>
+  
+  <!-- Favicon SVG: Huruf V Minimalis -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22 font-family=%22-sans-serif%22 font-weight=%22800%22 fill=%22%23ffffff%22>V</text></svg>">
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
+  <style>
+    :root {
+      --bg: #0b0c10;
+      --surface: rgba(22, 25, 37, 0.75);
+      --surface-blur: saturate(180%) blur(20px);
+      --text-main: #f8f9fa;
+      --text-muted: #8a99ad;
+      
+      /* Tab Colors */
+      --accent-docs: #2997FF;    /* Apple Blue */
+      --accent-tos: #00e676;     /* Professional Green */
+      --accent-privacy: #ff9100; /* Professional Orange */
+      
+      --border: rgba(255, 255, 255, 0.08);
+      --liquid-shadow: rgba(41, 151, 255, 0.2); /* Default Blue */
+    }
+    
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    body {
+      background-color: var(--bg) !important; /* Force background to fix white screen */
+      color: var(--text-main);
+      line-height: 1.7;
+      padding: 60px 20px;
+      overflow-x: hidden;
+      min-height: 100vh;
+      transition: background 0.3s ease;
+    }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.6;
-            overflow-x: hidden;
-            position: relative;
-        }
+    /* Background ambient glow */
+    .ambient-glow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+      background: 
+        radial-gradient(circle at 10% 20%, rgba(41, 151, 255, 0.06) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(0, 230, 118, 0.04) 0%, transparent 40%);
+      transition: opacity 0.5s ease;
+    }
+    
+    .container {
+      max-width: 840px;
+      margin: 0 auto;
+      background: var(--surface);
+      backdrop-filter: var(--surface-blur);
+      -webkit-backdrop-filter: var(--surface-blur);
+      padding: 40px; /* Sedikit dikurangi agar fit mobile */
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      min-height: 400px;
+    }
 
-        /* Subtle Liquid Background Effects */
-        .liquid-blob {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(120px);
-            z-index: -1;
-            opacity: 0.4;
-            animation: float 20s infinite ease-in-out alternate;
-        }
+    /* Header Bar */
+    .header-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-bottom: 40px;
+    }
 
-        .blob-1 {
-            width: 400px;
-            height: 400px;
-            background: rgba(41, 151, 255, 0.15);
-            top: -10%;
-            left: -10%;
-        }
+    .header-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-        .blob-2 {
-            width: 500px;
-            height: 500px;
-            background: rgba(255, 255, 255, 0.05);
-            bottom: -20%;
-            right: -10%;
-            animation-delay: -5s;
-        }
+    .brand-title {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-main);
+    }
+    
+    .brand-badge {
+      font-size: 10px;
+      background: rgba(255,255,255,0.1);
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
 
-        @keyframes float {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(50px, 50px) scale(1.1); }
-        }
+    /* Language Switcher */
+    .lang-switcher {
+      display: flex;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: 3px;
+      position: relative;
+    }
 
-        /* Ticker Animation */
-        .ticker-wrap {
-            width: 100%;
-            background-color: rgba(255, 59, 48, 0.15);
-            border-bottom: 1px solid rgba(255, 59, 48, 0.3);
-            overflow: hidden;
-            white-space: nowrap;
-            padding: 8px 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
+    .lang-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 99px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      position: relative;
+      z-index: 2;
+    }
 
-        .ticker {
-            display: inline-block;
-            white-space: nowrap;
-            animation: ticker 25s linear infinite;
-            color: #ff453a;
-            font-weight: 600;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
-        }
+    /* Lang Switcher Active Pill */
+    .lang-switcher::before {
+      content: '';
+      position: absolute;
+      top: 3px;
+      bottom: 3px;
+      left: 3px;
+      width: calc(50% - 3px);
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 99px;
+      transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+      z-index: 1;
+    }
 
-        @keyframes ticker {
-            0% { transform: translate3d(100%, 0, 0); }
-            100% { transform: translate3d(-100%, 0, 0); }
-        }
+    html[lang="id"] .lang-switcher::before { transform: translateX(0); }
+    html[lang="en"] .lang-switcher::before { transform: translateX(100%); }
+    
+    html[lang="id"] #btn-lang-id { color: var(--text-main); }
+    html[lang="en"] #btn-lang-en { color: var(--text-main); }
 
-        /* Layout & Typography */
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
+    /* Navigation Tabs (3 Tabs) */
+    .nav-tabs {
+      display: flex;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 4px;
+      border-radius: 99px;
+      border: 1px solid var(--border);
+      position: relative;
+    }
 
-        h1, h2, h3 {
-            font-weight: 600;
-            letter-spacing: -0.02em;
-            margin-bottom: 16px;
-        }
+    .tab-btn {
+      position: relative;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      padding: 10px 0;
+      border-radius: 99px;
+      transition: color 0.3s ease;
+      text-decoration: none;
+      z-index: 2;
+      flex: 1;
+      text-align: center;
+    }
 
-        h1 { font-size: 2.5rem; text-align: center; margin-bottom: 10px; }
-        .subtitle { text-align: center; color: var(--text-muted); margin-bottom: 50px; font-size: 1.1rem; }
+    /* Liquid Pill Background for Tabs */
+    .nav-tabs::before {
+      content: '';
+      position: absolute;
+      top: 4px;
+      bottom: 4px;
+      left: 4px;
+      width: calc(33.333% - 4px);
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 99px;
+      transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), background 0.4s, box-shadow 0.4s;
+      z-index: 1;
+    }
 
-        h2 { font-size: 1.5rem; margin-top: 40px; border-bottom: 1px solid var(--glass-border); padding-bottom: 10px; }
-        h3 { font-size: 1.1rem; margin-top: 24px; color: #e5e5ea; }
+    body.route-docs .nav-tabs::before {
+      transform: translateX(0);
+      background: var(--text-main);
+      box-shadow: 0 4px 15px var(--liquid-shadow);
+    }
+    body.route-tos .nav-tabs::before {
+      transform: translateX(100%);
+      background: var(--text-main);
+      box-shadow: 0 4px 15px rgba(0, 230, 118, 0.2);
+    }
+    body.route-privacy .nav-tabs::before {
+      transform: translateX(200%);
+      background: var(--text-main);
+      box-shadow: 0 4px 15px rgba(255, 145, 0, 0.2);
+    }
 
-        p, li { color: var(--text-muted); margin-bottom: 12px; font-size: 0.95rem; }
-        ul, ol { padding-left: 20px; margin-bottom: 16px; }
-        li { padding-left: 5px; }
+    /* Active Text Colors for Tabs */
+    body.route-docs #btn-docs { color: #0b0c10; font-weight: 600; }
+    body.route-tos #btn-tos { color: #0b0c10; font-weight: 600; }
+    body.route-privacy #btn-privacy { color: #0b0c10; font-weight: 600; }
 
-        /* Glassmorphism Containers */
-        .glass-panel {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        }
+    /* Content Logic */
+    .policy-content { display: none; }
+    
+    /* Animation handled via keyframes */
+    body.route-docs #docs-section { display: block; animation: liquidShow 0.4s cubic-bezier(0.25, 1, 0.5, 1); }
+    body.route-tos #tos-section { display: block; animation: liquidShow 0.4s cubic-bezier(0.25, 1, 0.5, 1); }
+    body.route-privacy #privacy-section { display: block; animation: liquidShow 0.4s cubic-bezier(0.25, 1, 0.5, 1); }
 
-        .alert-panel {
-            background: rgba(255, 59, 48, 0.03);
-            border: 1px solid rgba(255, 59, 48, 0.2);
-            position: relative;
-        }
+    @keyframes liquidShow {
+      from { opacity: 0; filter: blur(8px); transform: translateY(5px); }
+      to { opacity: 1; filter: blur(0); transform: translateY(0); }
+    }
 
-        .alert-panel::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0;
-            width: 4px; height: 100%;
-            background: var(--alert-color);
-            border-top-left-radius: 16px;
-            border-bottom-left-radius: 16px;
-        }
+    /* Language Visibility Logic */
+    html[lang="en"] .lang-id { display: none !important; }
+    html[lang="id"] .lang-en { display: none !important; }
 
-        /* Code Blocks */
-        pre {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid var(--glass-border);
-            border-radius: 8px;
-            padding: 16px;
-            overflow-x: auto;
-            margin: 16px 0;
-        }
+    /* Typography */
+    h1 { 
+      font-size: 2rem; 
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+    .meta-date {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 35px;
+      font-family: monospace;
+      letter-spacing: 0.5px;
+    }
+    h2 { 
+      margin-top: 35px; 
+      font-size: 1.25rem; 
+      font-weight: 600;
+      letter-spacing: -0.2px;
+      margin-bottom: 14px;
+    }
+    
+    /* Dynamic Header Colors based on route */
+    body.route-docs h2 { color: var(--accent-docs); }
+    body.route-tos h2 { color: var(--accent-tos); }
+    body.route-privacy h2 { color: var(--accent-privacy); }
+    
+    p { 
+      color: var(--text-muted); 
+      font-size: 15px; 
+      margin-bottom: 18px;
+      text-align: justify;
+    }
+    
+    ul, ol { 
+      padding-left: 22px; 
+      margin-bottom: 22px;
+    }
+    li { 
+      color: var(--text-muted); 
+      font-size: 15px; 
+      margin-bottom: 10px;
+    }
+    
+    .mono {
+      font-family: "SF Mono", "Menlo", monospace;
+      background: rgba(255,255,255,0.04);
+      padding: 3px 6px;
+      border-radius: 6px;
+      color: #e2e8f0;
+      font-size: 13px;
+      border: 1px solid rgba(255,255,255,0.03);
+    }
 
-        code {
-            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
-            font-size: 0.85rem;
-            color: #e5e5ea;
-        }
+    .link-text {
+      color: var(--text-main);
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      transition: opacity 0.2s;
+      cursor: pointer;
+    }
+    .link-text:hover { opacity: 0.7; }
 
-        blockquote {
-            border-left: 3px solid var(--accent-color);
-            padding-left: 16px;
-            margin: 20px 0;
-            color: #d1d1d6;
-            font-style: italic;
-            background: rgba(41, 151, 255, 0.05);
-            padding: 16px;
-            border-radius: 0 8px 8px 0;
-        }
+    pre {
+      background: #000000;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 15px;
+      overflow-x: auto;
+      margin: 20px 0 25px 0;
+    }
+    code {
+      font-family: "SF Mono", monospace;
+      font-size: 13px;
+      color: #a5b3ce;
+    }
+    .code-key { color: #f472b6; }
+    .code-string { color: #a3e635; }
 
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 40px 20px;
-            border-top: 1px solid var(--glass-border);
-            margin-top: 60px;
-        }
+    blockquote {
+      background: rgba(255, 255, 255, 0.02);
+      border-left: 3px solid var(--text-muted);
+      padding: 20px;
+      margin: 25px 0;
+      border-radius: 0 16px 16px 0;
+      border: 1px solid var(--border);
+      border-left-width: 4px;
+    }
+    blockquote p { color: #e2e8f0; margin-bottom: 0; font-size: 14px; }
+    
+    .alert-box {
+        background: rgba(255, 59, 48, 0.08);
+        border: 1px solid rgba(255, 59, 48, 0.2);
+        border-radius: 16px;
+        padding: 20px;
+        margin: 30px 0;
+    }
+    .alert-title {
+        color: #ff453a;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 10px;
+        font-size: 1.1rem;
+    }
+    .alert-text {
+        color: #ffccc7;
+        font-size: 0.95rem;
+    }
 
-        footer a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.85rem;
-            margin: 0 10px;
-            transition: color 0.3s ease;
-        }
+    .footer {
+      margin-top: 60px;
+      text-align: center;
+      font-size: 12px;
+      color: #4b5563;
+      border-top: 1px solid var(--border);
+      padding-top: 30px;
+    }
 
-        footer a:hover { color: var(--text-main); }
-        .copyright { color: #636366; font-size: 0.8rem; margin-top: 16px; }
-
-    </style>
+    /* Mobile Responsive */
+    @media (max-width: 650px) {
+      body { padding: 20px 10px; }
+      .container { padding: 20px 15px; border-radius: 20px; }
+      .header-bar { gap: 15px; margin-bottom: 30px; }
+      .nav-tabs { width: 100%; }
+      .tab-btn { font-size: 12px; padding: 10px 2px; } /* Text wrap fix */
+      h1 { font-size: 1.6rem; }
+      h2 { font-size: 1.15rem; }
+      p, li { font-size: 14px; }
+      .brand-title { font-size: 20px; }
+    }
+  </style>
 </head>
-<body>
+<body class="route-docs">
 
-    <div class="liquid-blob blob-1"></div>
-    <div class="liquid-blob blob-2"></div>
+  <div class="ambient-glow"></div>
 
-    <div class="ticker-wrap">
-        <div class="ticker">
-            [SECURITY ALERT: HARAP BACA BAGIAN "EDUKASI KRUSIAL" SEBELUM MELAKUKAN DEPLOYMENT KE LINGKUNGAN PRODUKSI] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [SECURITY ALERT: HARAP BACA BAGIAN "EDUKASI KRUSIAL" SEBELUM MELAKUKAN DEPLOYMENT KE LINGKUNGAN PRODUKSI]
+<div class="container">
+  <!-- Header -->
+  <div class="header-bar">
+    <div class="header-top-row">
+      <div class="brand-title">
+        VEX SECURITY <span class="brand-badge">v1.0</span>
+      </div>
+      
+      <!-- Language Switcher -->
+      <div class="lang-switcher">
+        <button class="lang-btn" id="btn-lang-id" onclick="setLanguage('id')">ID</button>
+        <button class="lang-btn" id="btn-lang-en" onclick="setLanguage('en')">EN</button>
+      </div>
+    </div>
+    
+    <!-- Navigation Tabs -->
+    <div class="nav-tabs">
+      <a href="#docs" class="tab-btn" id="btn-docs">
+        <span class="lang-id">Dokumentasi</span>
+        <span class="lang-en">Documentation</span>
+      </a>
+      <a href="#tos" class="tab-btn" id="btn-tos">
+        <span class="lang-id">Layanan</span>
+        <span class="lang-en">Service</span>
+      </a>
+      <a href="#privacy" class="tab-btn" id="btn-privacy">
+        <span class="lang-id">Privasi</span>
+        <span class="lang-en">Privacy</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- ────────────────────────────────────────────────────────────── -->
+  <!-- DOCUMENTATION SECTION -->
+  <!-- ────────────────────────────────────────────────────────────── -->
+  <div id="docs-section" class="policy-content">
+    <!-- Title -->
+    <h1><span class="lang-id">Panduan Teknis</span><span class="lang-en">Technical Documentation</span></h1>
+    <div class="meta-date">LAST MODIFIED: JUNE 08, 2026</div>
+    
+    <!-- Warning Section -->
+    <h2><span class="lang-id">⚠️ Edukasi Keamanan (Wajib Dibaca)</span><span class="lang-en">⚠️ Security Advisory (Mandatory Read)</span></h2>
+    <div class="alert-box">
+        <div class="alert-title"><span class="lang-id">🛠️ WAJIB SANDBOX TEST</span><span class="lang-en">🛠️ MANDATORY SANDBOX TESTING</span></div>
+        <div class="alert-text">
+            <span class="lang-id">VEX v1.0 adalah sistem keamanan tingkat lanjut. Developer <strong>diwajibkan</strong> melakukan uji coba menyeluruh (sandbox testing) pada tempat simulasi sebelum integrasi ke lingkungan produksi.</span>
+            <span class="lang-en">VEX v1.0 is an advanced security system. Developers are <strong>required</strong> to conduct thorough testing (sandbox testing) in a simulation environment before integrating into the production environment.</span>
+        </div>
+    </div>
+    <div class="alert-box" style="border-color: rgba(255, 200, 0, 0.2); background: rgba(255, 200, 0, 0.05);">
+        <div class="alert-title" style="color: #ffc800;"><span class="lang-id">🧠 REALITAS SIBER</span><span class="lang-en">🧠 CYBER REALITY</span></div>
+        <div class="alert-text" style="color: #ffeebb;">
+            <span class="lang-id">Tidak ada sistem keamanan yang 100% kekal. Keamanan siber adalah dinamika yang terus berputar. VEX hadir untuk meminimalisir ancaman massal, namun bukan jaminan absolut terhadap segala eksploitasi di masa depan.</span>
+            <span class="lang-en">No security system is 100% impenetrable. Cybersecurity is a continuous dynamic. VEX is designed to minimize mass threats, but is not an absolute guarantee against all future exploits.</span>
         </div>
     </div>
 
-    <div class="container">
-        <h1>VEX v1.0</h1>
-        <div class="subtitle">Dokumentasi Teknis & Legalitas Resmi</div>
-
-        <div class="glass-panel alert-panel">
-            <h2>Edukasi Krusial Pra-Instalasi</h2>
-            <p>Bagian ini wajib dipahami secara menyeluruh sebelum melakukan implementasi sistem ke dalam lingkungan produksi Anda.</p>
-            
-            <h3>1. Aturan Emas: Validasi via Sandbox</h3>
-            <blockquote>
-                <strong>PERHATIAN DEVELOPER:</strong> VEX v1.0 merupakan arsitektur keamanan generasi terbaru. Anda <strong>DIWAJIBKAN</strong> untuk melakukan uji coba (sandbox testing) pada <em>Testing Place</em> atau lingkungan simulasi sekunder sebelum integrasi akhir. Dilarang keras mengimplementasikan protokol keamanan baru langsung ke server produksi tanpa proses validasi internal guna mencegah gangguan pada basis pemain aktif.
-            </blockquote>
-
-            <h3>2. Realitas Ekosistem Keamanan Siber</h3>
-            <blockquote>
-                <strong>PARADIGMA KEAMANAN:</strong> Dalam infrastruktur teknologi informasi modern, tidak ada sistem yang memiliki jaminan kebal 100%. Keamanan siber merupakan dinamika berkelanjutan (arms race) antara arsitek proteksi dan pihak pengeksploitasi.<br><br>
-                Bahkan entitas berskala global dengan infrastruktur masif (seperti korporasi teknologi terkemuka atau lembaga pemerintahan) tetap menghadapi risiko penetrasi dari peretas berdedikasi tinggi.<br><br>
-                VEX v1.0 direkayasa secara presisi untuk <strong>meminimalisir, menyulitkan, dan memblokir</strong> eksploitasi massal guna menjaga integritas ekonomi digital proyek Anda. VEX berfungsi sebagai lapisan mitigasi proaktif, bukan solusi absolut yang meniadakan ancaman eksploitasi tingkat lanjut. Memahami realitas ini adalah prasyarat profesionalisme dalam merilis produk berbasis teknologi.
-            </blockquote>
-        </div>
-
-        <div class="glass-panel">
-            <h2>Bagian I: Panduan Teknis (User Manual)</h2>
-            
-            <h3>1. Memulai (Getting Started)</h3>
-            <p><strong>1.1 Arsitektur VEX</strong><br>
-            VEX menggunakan arsitektur <em>Hybrid Cloud Security</em> yang menghubungkan Engine Roblox dengan Backend Security API dan Database Terenkripsi. Filosofi kami berpusat pada mitigasi berbasis <em>cloud</em> yang menawarkan tingkat isolasi dan keandalan jauh melampaui sistem skrip lokal tradisional.</p>
-            
-            <p><strong>1.2 Alur Instalasi Paket (.rbxm)</strong></p>
-            <ol>
-                <li>Bergabung ke server Discord resmi kami. Gunakan perintah <code>/create &lt;PlaceId&gt;</code> untuk menerbitkan <em>Secret Key</em> kriptografis Anda.</li>
-                <li>Unduh berkas distribusi <code>VEX_AntiCheat_v2.rbxm</code> dari saluran resmi yang ditunjuk.</li>
-                <li>Buka Roblox Studio, navigasikan ke jendela Explorer, klik kanan lalu pilih <strong>Insert from File...</strong></li>
-                <li>Distribusikan modul ke dalam hierarki layanan berikut:
-                    <ul>
-                        <li><code>VEX</code> (Folder) ➡️ <strong>ServerScriptService</strong></li>
-                        <li><code>VEX_TopbarIcon</code> ➡️ <strong>ReplicatedStorage</strong></li>
-                        <li><code>VEX_AdminPanel</code> ➡️ <strong>StarterGui</strong></li>
-                        <li><code>VEX_ClientHandler</code> & <code>VEX_ExecutorScanner</code> ➡️ <strong>StarterPlayerScripts</strong></li>
-                    </ul>
-                </li>
-            </ol>
-
-            <p><strong>1.3 Aktivasi & Konfigurasi Mandiri</strong></p>
-            <p><strong>Prosedur Esensial:</strong> Anda wajib mengaktifkan <em>Allow HTTP Requests</em> melalui menu <strong>Game Settings > Security</strong> di Roblox Studio.</p>
-            <p>Konfigurasikan lisensi dan akses administrator pada berkas <code>VEX_Config.lua</code>:</p>
-<pre><code>Config.SECRET_KEY = "VEX-XXXX-XXXX"
-Config.ADMIN_IDS  = { 12387945654, 12345678 }</code></pre>
-            <blockquote>
-                <strong>Protokol Integritas:</strong> Berkas <code>VEX_BackendURL.lua</code> telah dilindungi melalui enkripsi obfuscation tingkat lanjut. Dilarang membuka, mengubah, atau mendekompilasi modul ini, karena tindakan tersebut akan merusak rute kriptografis menuju server Backend.
-            </blockquote>
-
-            <h3>2. Sistem Deteksi Logika (Core Security Logic)</h3>
+    <!-- Getting Started -->
+    <h2><span class="lang-id">1. Memulai (Getting Started)</span><span class="lang-en">1. Getting Started</span></h2>
+    <p>
+        <span class="lang-id">VEX Anti-Cheat menggunakan arsitektur Hybrid Cloud Security yang menjembatani antara Roblox Engine, Backend API, dan Database Relasional untuk mitigasi ancaman secara real-time.</span>
+        <span class="lang-en">VEX Anti-Cheat utilizes a Hybrid Cloud Security architecture bridging the Roblox Engine, Backend API, and Relational Database for real-time threat mitigation.</span>
+    </p>
+    
+    <h3><span class="lang-id">1.1 Alur Instalasi Paket .rbxm</span><span class="lang-en">1.1 Installation Workflow</span></h3>
+    <p><span class="lang-id">Ikuti prosedur standar instalasi paket distribusi:</span><span class="lang-en">Follow the standard installation package procedure:</span></p>
+    <ul>
+        <li><strong>Step 1:</strong> <span class="lang-id">Akses server Discord resmi dan gunakan perintah <code>/create &lt;PlaceId&gt;</code> untuk mendapatkan Secret Key.</span><span class="lang-en">Access the official Discord server and use the command <code>/create &lt;PlaceId&gt;</code> to obtain the Secret Key.</span></li>
+        <li><strong>Step 2:</strong> <span class="lang-id">Unduh berkas <code>VEX_AntiCheat_v2.rbxm</code>.</span><span class="lang-en">Download the <code>VEX_AntiCheat_v2.rbxm</code> file.</span></li>
+        <li><strong>Step 3:</strong> <span class="lang-id">Masuk ke Roblox Studio > Explorer > Insert from File.</span><span class="lang-en">Go to Roblox Studio > Explorer > Insert from File.</span></li>
+        <li><strong>Step 4:</strong> <span class="lang-id">Distribusikan struktur folder ke Service yang sesuai:</span><span class="lang-en">Distribute folder structure to appropriate Services:</span>
             <ul>
-                <li><strong>2.1 Lingkungan Pemindaian Klien (Client-Side VM Scanner):</strong> Mengidentifikasi injeksi eksternal dan perkakas manipulasi memori melalui inspeksi berkala pada fungsi global tingkat rendah (<code>getgenv</code>, <code>hookfunction</code>, <code>checkcaller</code>).</li>
-                <li><strong>2.2 Analisis Perilaku Server (Server Behavioral Radar):</strong> Melakukan validasi anomali kecepatan dan elevasi melalui pemantauan koordinat fisika server (<code>AssemblyLinearVelocity</code>) untuk mengeliminasi manipulasi posisi lintas-klien (anti-spoof).</li>
-                <li><strong>2.3 Jaringan Pemblokiran Global (VEX-VAC Network):</strong> Sinkronisasi data pelanggaran antar instansi (Pelanggaran terverifikasi di Area A akan mereplikasi penangguhan ke Area B secara terotomatisasi).</li>
-                <li><strong>2.4 Proteksi Aset (Poison Pill Mechanism):</strong> Protokol penguncian integritas aset melalui tanda tangan digital. Jika ruang lingkup direplikasi secara paksa (contoh: <em>SaveInstance</em>), sistem akan memicu degradasi tata letak aset dan mentransmisikan sinyal anomali ke webhook administrator.</li>
+                <li><code>VEX</code> (Folder) ➔ <code>ServerScriptService</code></li>
+                <li><code>VEX_TopbarIcon</code> ➔ <code>ReplicatedStorage</code></li>
+                <li><code>VEX_AdminPanel</code> ➔ <code>StarterGui</code></li>
+                <li><code>VEX_ClientHandler</code> & <code>VEX_ExecutorScanner</code> ➔ <code>StarterPlayerScripts</code></li>
             </ul>
-        </div>
+        </li>
+    </ul>
 
-        <div class="glass-panel">
-            <h2>Bagian II: Ketentuan Layanan (Terms of Service)</h2>
-            <p><em>Disahkan oleh konsorsium Loonareen Studios & Jahat Sentosa Corp.</em></p>
+    <h3><span class="lang-id">1.2 Aktivasi & Konfigurasi</span><span class="lang-en">1.2 Activation & Configuration</span></h3>
+    <p><span class="lang-id">Aktifkan <strong>Allow HTTP Requests</strong> pada Game Settings > Security. Konfigurasi <code>VEX_Config.lua</code> seperti berikut:</span><span class="lang-en">Enable <strong>Allow HTTP Requests</strong> in Game Settings > Security. Configure <code>VEX_Config.lua</code> as follows:</span></p>
+    <pre><code><span class="code-key">Config</span>.SECRET_KEY = <span class="code-string">"VEX-XXXX-XXXX"</span>
+<span class="code-key">Config</span>.ADMIN_IDS  = { <span class="code-string">12387945654</span>, <span class="code-string">12345678</span> }</code></pre>
+    <p style="font-size: 0.85rem; margin-top: -15px; margin-bottom: 20px; color: #ff453a;">
+        ⚠️ <span class="lang-id">Catatan: Berkas <code>VEX_BackendURL.lua</code> telah terenkripsi. Dilarang keras memodifikasi isinya.</span><span class="lang-en">Note: The <code>VEX_BackendURL.lua</code> file is encrypted. Strictly forbidden to modify its contents.</span>
+    </p>
 
-            <h3>1. Lisensi & Batasan Penggunaan</h3>
-            <ul>
-                <li>Distribusi perangkat lunak ini diberikan dalam bentuk lisensi terbatas, non-eksklusif, dan hak prerogatif pencabutan sewaktu-waktu tetap berada pada pihak penyedia.</li>
-                <li>Satu lisensi terikat secara eksklusif untuk maksimal 5 (lima) <em>Place ID</em> bagi lisensi reguler.</li>
-                <li>Terdapat larangan keras untuk melakukan dekompilasi, rekayasa balik (<em>reverse engineering</em>), atau segala bentuk modifikasi terhadap modul <code>VEX_BackendURL</code> yang dilindungi enkripsi.</li>
-            </ul>
+    <h2><span class="lang-id">2. Core Security Logic</span><span class="lang-en">2. Core Security Logic</span></h2>
+    <h3><span class="lang-id">2.1 Client-Side VM Scanner</span><span class="lang-en">2.1 Client-Side VM Scanner</span></h3>
+    <p><span class="lang-id">Mendeteksi injeksi executor melalui pemindaian berkala pada fungsi global environment dan hook detection.</span><span class="lang-en">Detects executor injection through periodic scanning of global environment functions and hook detection.</span></p>
+    
+    <h3><span class="lang-id">2.2 Server Behavioral Radar</span><span class="lang-en">2.2 Server Behavioral Radar</span></h3>
+    <p><span class="lang-id">Validasi posisi horizontal dan vertikal via koordinat fisika server (<code>AssemblyLinearVelocity</code>) untuk mencegah manipulasi posisi klien (anti-spoof).</span><span class="lang-en">Validates horizontal and vertical position via server physics coordinates (<code>AssemblyLinearVelocity</code>) to prevent client position manipulation (anti-spoof).</span></p>
+    
+    <h3><span class="lang-id">2.3 Proteksi Aset (Poison Pill)</span><span class="lang-en">2.3 Asset Protection (Poison Pill)</span></h3>
+    <p><span class="lang-id">Mengunci aset menggunakan tanda tangan digital. Jika map dicuri paksa menggunakan ekspor, sistem akan memicu mekanisme *Poison Pill* yang merusak integritas koordinat part dan mengirim sinyal audit ke pemilik.</span><span class="lang-en">Locks assets using digital signatures. If the map is forcibly stolen via export, the system triggers a *Poison Pill* mechanism that corrupts part coordinate integrity and sends an audit signal to the owner.</span></p>
+  </div>
 
-            <h3>2. Kepatuhan Ekosistem & Status Tamper</h3>
-            <ul>
-                <li>Validasi lisensi VEX terintegrasi penuh dengan keanggotaan Developer pada peladen (server) Discord resmi kami.</li>
-                <li>Pemutusan afiliasi (keluar dari peladen) atau sanksi moderasi (dikeluarkan/diblokir) akan memicu protokol <em>Tamper</em> (<code>is_tampered = true</code>) secara otomatis. Hal ini akan membekukan antarmuka administrator dan membangkitkan log kesalahan persisten pada konsol peladen.</li>
-            </ul>
+  <!-- ────────────────────────────────────────────────────────────── -->
+  <!-- TERMS OF SERVICE SECTION -->
+  <!-- ────────────────────────────────────────────────────────────── -->
+  <div id="tos-section" class="policy-content">
+    <h1>Terms of Service</h1>
+    <div class="meta-date">LAST MODIFIED: JUNE 08, 2026</div>
+    
+    <p><span class="lang-id">Ketentuan Layanan ini mengikat Anda ("Pengembang") dengan <strong>Loonareen Studios</strong>. Dengan menerapkan modul VEX, Anda menyatakan kepatuhan penuh terhadap perjanjian ini.</span><span class="lang-en">These Terms of Service bind you ("Developer") with <strong>Loonareen Studios</strong>. By implementing the VEX module, you express full compliance with this agreement.</span></p>
 
-            <h3>3. Pembatasan Tanggung Jawab Hukum (Limitation of Liability & "AS IS" Clause)</h3>
-            <ul>
-                <li><strong>Klausa "AS IS":</strong> Perangkat lunak dipasok "sebagaimana adanya". Loonareen Studios & Jahat Sentosa Corp. tidak memberikan jaminan absolut atas ketiadaan interupsi layanan, ketiadaan celah (bug), atau kekebalan permanen dari vektor eksploitasi di masa mendatang.</li>
-                <li><strong>Pelepasan Tanggung Jawab Finansial:</strong> Loonareen Studios dan Jahat Sentosa Corp. dibebaskan secara hukum atas segala bentuk kompensasi finansial atau kerugian operasional yang mungkin dialami oleh Pengembang maupun pihak ketiga, termasuk namun tidak terbatas pada:
-                    <ul>
-                        <li>Penyusutan pendapatan dari transaksi in-game (<em>Gamepass / Developer Products</em>).</li>
-                        <li>Fluktuasi atau penurunan metrik keterlibatan pemain.</li>
-                        <li>Anomali penindakan sistematis (<em>false positive</em>).</li>
-                        <li>Kerusakan topologi aset yang dipicu oleh aktivasi keamanan <em>Poison Pill</em>.</li>
-                        <li>Sanksi moderasi atau penghentian akses operasional dari pihak korporasi platform (Roblox Corp).</li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
+    <h2><span class="lang-id">1. Kepatuhan Platform</span><span class="lang-en">1. Platform Compliance</span></h2>
+    <p><span class="lang-id">VEX dirancang sebagai middleware keamanan yang mematuhi <strong>Roblox Terms of Use</strong> dan <strong>Discord Developer Policy</strong>. Kami tidak melakukan pengambilan data yang melanggar privasi pengguna akhir (End-User) atau mengaitkan diri ke binari inti mesin (core binaries).</span><span class="lang-en">VEX is designed as a security middleware compliant with <strong>Roblox Terms of Use</strong> and <strong>Discord Developer Policy</strong>. We do not engage in data collection that violates End-User privacy or hook into core engine binaries.</span></p>
 
-        <div class="glass-panel">
-            <h2>Bagian III: Kebijakan Privasi (Privacy Policy)</h2>
+    <h2><span class="lang-id">2. Lisensi & Batasan</span><span class="lang-en">2. License & Restrictions</span></h2>
+    <p><span class="lang-id">Lisensi bersifat terbatas dan non-eksklusif. Anda dilarang keras untuk:</span><span class="lang-en">The license is limited and non-exclusive. You are strictly prohibited from:</span></p>
+    <ul>
+        <li><span class="lang-id">Melakukan reverse engineering, dekompilasi, atau memodifikasi skrip <code>VEX_BackendURL</code>.</span><span class="lang-en">Reverse engineering, decompiling, or modifying <code>VEX_BackendURL</code> scripts.</span></li>
+        <li><span class="lang-id">Menggunakan lisensi untuk tujuan ilegal atau melanggar hukum yang berlaku.</span><span class="lang-en">Using the license for illegal purposes or violating applicable laws.</span></li>
+    </ul>
 
-            <h3>1. Prinsip Minimalisasi Data (Data Minimization)</h3>
-            <p>Sesuai dengan standar perlindungan data digital, sistem kami hanya memproses metadata yang sangat esensial untuk keperluan keamanan:</p>
-            <ul>
-                <li><strong>Data Kredensial Pengembang:</strong> ID Pengguna Discord, Nama Pengguna Discord, dan ID Tempat (Place ID).</li>
-                <li><strong>Data Forensik Anomali:</strong> ID Pengguna platform pelapor/pelanggar, tipe vektor eksploitasi, magnitudo anomali fisika, serta stempel waktu (<em>timestamp</em>).</li>
-            </ul>
-            <p>Sistem VEX <strong>SECARA TEGAS TIDAK AKAN PERNAH</strong> mengekstraksi data privasi sensitif, termasuk namun tidak terbatas pada: Alamat IP (IP Address), identifikasi perangkat keras lokal (Hardware ID), atau informasi perbankan milik pemain selaras dengan ToS platform global.</p>
+    <h2><span class="lang-id">3. Status Tamper & Komunitas</span><span class="lang-en">3. Tamper Status & Community</span></h2>
+    <p><span class="lang-id">Lisensi VEX terikat dengan status keanggotaan Anda di komunitas resmi. Jika status keanggotaan berakhir (leave/kick/ban), sistem akan mengaktifkan status <em>Tamper</em> yang membekukan fungsi administratif secara otomatis.</span><span class="lang-en">The VEX license is tied to your membership status in the official community. If membership ends (leave/kick/ban), the system will activate a <em>Tamper</em> status that automatically freezes administrative functions.</span></p>
 
-            <h3>2. Siklus Hidup Retensi Data (Data Retention Lifecycle)</h3>
-            <p>Demi mematuhi protokol kepatuhan privasi yang berlaku, VEX mengimplementasikan mekanisme pembersihan ruang penyimpanan secara otonom (<em>automated data purge</em>):</p>
-            <ul>
-                <li><strong>Log Forensik Pelanggaran:</strong> Dipermanenkan penghapusannya dari Database pusat setelah melampaui siklus <strong>90 hari</strong>.</li>
-                <li><strong>Data Lisensi Inaktif:</strong> Kredensial yang tidak melalui proses pembaruan (<em>renewal</em>) akan dihapus secara permanen dari sistem dalam kurun waktu <strong>120 hari</strong>.</li>
-            </ul>
-        </div>
+    <h2><span class="lang-id">4. Penyangkalan Tanggung Jawab</span><span class="lang-en">4. Limitation of Liability</span></h2>
+    <blockquote>
+        <p><strong>DISCLAIMER:</strong> <span class="lang-id">Loonareen Studios tidak bertanggung jawab atas kerugian finansial, penurunan metrik pemain, atau sanksi moderasi dari platform pihak ketiga yang timbul dari penggunaan perangkat lunak ini.</span><span class="lang-en">Loonareen Studios is not liable for financial loss, player metric decline, or moderation sanctions from third-party platforms arising from the use of this software.</span></p>
+    </blockquote>
 
-    </div>
+    <p><span class="lang-id">Untuk informasi detail mengenai hak dan kewajiban Anda sebagai pengguna, silakan baca selengkapnya</span><span class="lang-en">For detailed information regarding your rights and obligations as a user, please read more</span> <a href="https://ramadaniel7.github.io/vex-web-docs/#terms" target="_blank" class="link-text"><span class="lang-id">disini</span><span class="lang-en">here</span></a>.</p>
+  </div>
 
-    <footer>
-        <div>
-            <a href="#">Terms of Service</a> | 
-            <a href="#">Privacy Policy</a>
-        </div>
-        <div class="copyright">
-            Loonareen Studios & Jahat Sentosa Corp. © 2026. All rights reserved.
-        </div>
-    </footer>
+  <!-- ────────────────────────────────────────────────────────────── -->
+  <!-- PRIVACY POLICY SECTION -->
+  <!-- ────────────────────────────────────────────────────────────── -->
+  <div id="privacy-section" class="policy-content">
+    <h1>Privacy Policy</h1>
+    <div class="meta-date">LAST MODIFIED: JUNE 08, 2026</div>
+    
+    <p><span class="lang-id">Kami menerapkan prinsip <em>Data Minimization</em>. Sistem VEX hanya memproses data yang mutlak diperlukan untuk fungsi keamanan, sesuai dengan standar privasi global dan regulasi platform.</span><span class="lang-en">We implement the <em>Data Minimization</em> principle. The VEX system only processes data absolutely necessary for security functions, in accordance with global privacy standards and platform regulations.</span></p>
+
+    <h2><span class="lang-id">1. Data yang Diproses</span><span class="lang-en">1. Data Processed</span></h2>
+    <ul>
+        <li><strong><span class="lang-id">Data Developer:</span><span class="lang-en">Developer Data:</span></strong> <span class="lang-id">Discord User ID, Discord Tag, dan Place ID (untuk validasi lisensi).</span><span class="lang-en">Discord User ID, Discord Tag, and Place ID (for license validation).</span></li>
+        <li><strong><span class="lang-id">Telemetri Pelanggaran:</span><span class="lang-en">Violation Telemetry:</span></strong> <span class="lang-id">Roblox UserID, jenis eksploitasi, dan timestamp. Kami <strong>TIDAK</strong> mengambil IP Address, data hardware, atau informasi keuangan.</span><span class="lang-en">Roblox UserID, exploit type, and timestamp. We <strong>DO NOT</strong> collect IP Address, hardware data, or financial information.</span></li>
+    </ul>
+
+    <h2><span class="lang-id">2. Keamanan & Enkripsi</span><span class="lang-en">2. Security & Encryption</span></h2>
+    <p><span class="lang-id">Semua komunikasi data menggunakan routing proksi terenkripsi. Kami tidak menyimpan Personally Identifiable Information (PII) yang sensitif di server kami.</span><span class="lang-en">All data communication uses encrypted proxy routing. We do not store sensitive Personally Identifiable Information (PII) on our servers.</span></p>
+
+    <h2><span class="lang-id">3. Retensi Data</span><span class="lang-en">3. Data Retention</span></h2>
+    <p><span class="lang-id">Log pelanggaran dibersihkan otomatis setelah <strong>90 hari</strong>. Lisensi yang tidak diperpanjang akan dihapus permanen setelah <strong>120 hari</strong>.</span><span class="lang-en">Violation logs are automatically purged after <strong>90 days</strong>. Unrenewed licenses will be permanently deleted after <strong>120 days</strong>.</span></p>
+
+    <p><span class="lang-id">Untuk mengetahui detail lengkap tentang cara kami menangani data Anda dan hak penghapusan data, silakan baca selengkapnya</span><span class="lang-en">For complete details on how we handle your data and data erasure rights, please read more</span> <a href="https://ramadaniel7.github.io/vex-web-docs/#privacy" target="_blank" class="link-text"><span class="lang-id">disini</span><span class="lang-en">here</span></a>.</p>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <span class="lang-id">© 2026 VEX Security & Loonareen Studios. Hak cipta dilindungi undang-undang.</span>
+    <span class="lang-en">© 2026 VEX Security & Loonareen Studios. All rights reserved.</span><br>
+    <span class="lang-id">Tidak berafiliasi dengan Discord Inc. atau Roblox Corporation.</span>
+    <span class="lang-en">Unaffiliated with Discord Inc. or Roblox Corporation.</span>
+  </div>
+</div>
+
+<script>
+  // --- LANGUAGE MANAGER ---
+  function setLanguage(langCode) {
+    document.documentElement.setAttribute('lang', langCode);
+    localStorage.setItem('vex_doc_lang', langCode);
+    
+    // Optional: update hash to stay on current page but refresh language
+    // runLiquidRouter(); 
+  }
+
+  function initLanguage() {
+    const savedLang = localStorage.getItem('vex_doc_lang') || 'id'; // Default ID based on prompt context
+    setLanguage(savedLang);
+  }
+
+  // --- ROUTER MANAGER ---
+  function runLiquidRouter() {
+    const currentHash = window.location.hash;
+    document.body.classList.remove('route-docs', 'route-tos', 'route-privacy');
+    
+    let activeRoute = 'docs';
+    let shadowColor = 'rgba(41, 151, 255, 0.2)'; // Blue
+    let pageTitleID = "Dokumentasi — VEX";
+    let pageTitleEN = "Documentation — VEX";
+
+    if (currentHash === '#tos') {
+      activeRoute = 'tos';
+      shadowColor = 'rgba(0, 230, 118, 0.2)'; // Green
+      pageTitleID = "Ketentuan Layanan — VEX";
+      pageTitleEN = "Terms of Service — VEX";
+    } else if (currentHash === '#privacy') {
+      activeRoute = 'privacy';
+      shadowColor = 'rgba(255, 145, 0, 0.2)'; // Orange
+      pageTitleID = "Kebijakan Privasi — VEX";
+      pageTitleEN = "Privacy Policy — VEX";
+    }
+
+    document.body.classList.add(`route-${activeRoute}`);
+    document.documentElement.style.setProperty('--liquid-shadow', shadowColor);
+    
+    // Update Title based on current lang
+    const currentLang = document.documentElement.getAttribute('lang');
+    document.title = (currentLang === 'id') ? pageTitleID : pageTitleEN;
+  }
+
+  // --- INITIALIZATION ---
+  window.addEventListener('hashchange', runLiquidRouter);
+  window.addEventListener('DOMContentLoaded', () => {
+    initLanguage();
+    runLiquidRouter();
+  });
+</script>
 
 </body>
 </html>
